@@ -10,6 +10,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(knitr)
 ```
 
 ## Question 1
@@ -19,3 +20,23 @@ here::i_am("lab-grades.Rproj")
 library(here)
 grades <- read_csv(here("grades.csv"), show_col_types = FALSE)
 ```
+
+## Question 2
+
+```{r}
+num_grades <- nrow(grades)
+cat("The data set contains", num_grades, "grades.")
+```
+The data set contains 53 018 grades.
+
+## Question 3
+
+```{r}
+num_students <- grades %>%
+  distinct(id) %>%
+  nrow()
+num_students
+```
+The data set contains 792 unique students.
+
+## Question 4
