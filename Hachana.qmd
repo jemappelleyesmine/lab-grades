@@ -166,3 +166,25 @@ clockwork_grades %>%
   theme_minimal()
 ```
 
+## Grade Analysis
+
+### Question 12
+```{r}
+grades_pivot <- grades %>%
+  group_by(id, group, course) %>%
+  summarise(avg_grade = mean(grade, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(
+    names_from = course,
+    values_from = avg_grade
+  )
+
+grades_pivot %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+```
+
+### Question 13
+```{r}
+
+```
+
