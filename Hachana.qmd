@@ -257,3 +257,36 @@ ggplot(final_grades, aes(x = as.factor(group), y = final_grade)) +
 ```
 
 ### Question 18
+```{r}
+course_check <- grades_pivot %>%
+  rowwise() %>%
+  mutate(pass_course = all(c_across(everything()) >= 5)) %>%
+  ungroup()
+
+trimester_check <- course_check %>%
+  rowwise() %>%
+  mutate(
+    avg_trimester1 = mean(c_across(c("Airship Piloting and Navigation", "Alchemy and Chemical Engineering", "Clockwork Automata and Robotics", "Cryptography and Codebreaking", "Electrical Engineering and Telegraphy", "Etiquette and Social Graces", "Fashion Design and Textile Innovation", "Historical Archaeology and Antiquarian Studies", "Steam Engine Mechanics and Engineering", "Victorian Literature and Social Commentary")), na.rm = TRUE),
+    avg_trimester2 = mean(c_across(c("Airship Piloting and Navigation", "Alchemy and Chemical Engineering", "Clockwork Automata and Robotics", "Cryptography and Codebreaking", "Electrical Engineering and Telegraphy", "Etiquette and Social Graces", "Fashion Design and Textile Innovation", "Historical Archaeology and Antiquarian Studies", "Steam Engine Mechanics and Engineering", "Victorian Literature and Social Commentary")), na.rm = TRUE),
+    avg_trimester3 = mean(c_across(c("Airship Piloting and Navigation", "Alchemy and Chemical Engineering", "Clockwork Automata and Robotics", "Cryptography and Codebreaking", "Electrical Engineering and Telegraphy", "Etiquette and Social Graces", "Fashion Design and Textile Innovation", "Historical Archaeology and Antiquarian Studies", "Steam Engine Mechanics and Engineering", "Victorian Literature and Social Commentary")), na.rm = TRUE),
+    pass_trimester = avg_trimester1 >= 10 & avg_trimester2 >= 10 & avg_trimester3 >= 10
+  ) %>%
+  ungroup()
+
+final_check <- trimester_check %>%
+  left_join(final_grades, by = c("id", "group")) %>%
+  mutate(
+    pass = pass_course & pass_trimester
+  ) %>%
+  select(id, group, final_grade, pass)
+
+final_check %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+```
+
+### Question 19
+```{r}
+
+```
+
