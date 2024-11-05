@@ -4,3 +4,18 @@ author: "Yesmine Hachana"
 format: html
 ---
 
+```{r}
+library(vroom)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+```
+
+## Question 1
+```{r}
+library(readr)
+here::i_am("lab-grades.Rproj")
+library(here)
+grades <- read_csv(here("grades.csv"), show_col_types = FALSE)
+```
