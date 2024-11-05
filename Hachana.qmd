@@ -198,6 +198,38 @@ ggplot(grades_pivot, aes(x = `Etiquette and Social Graces`, y = `Fashion Design 
 
 ### Question 14
 ```{r}
+correlation_result <- grades_pivot %>%
+  group_by(group) %>%
+  summarise(
+    correlation = cor(`Electrical Engineering and Telegraphy`, `Airship Piloting and Navigation`, use = "complete.obs")
+  )
+
+correlation_result %>%
+  knitr::kable()
+```
+
+### Question 15
+```{r}
+highest_corr_group <- correlation_result %>%
+  slice_max(abs(correlation), n = 1) %>%
+  pull(group)
+
+selected_group_data <- grades_pivot %>%
+  filter(group == highest_corr_group)
+
+ggplot(selected_group_data, aes(x = `Airship Piloting and Navigation`, y = `Electrical Engineering and Telegraphy`)) +
+  geom_point(color = "blue", size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", color = "violet", se = FALSE) +
+  labs(
+    title = paste("Average Grades in Electrical Engineering and Telegraphy vs. Airship Piloting and Navigation for Group", highest_corr_group),
+    x = "Average Grade in Airship Piloting and Navigation",
+    y = "Average Grade in Electrical Engineering and Telegraphy"
+  ) +
+  theme_minimal()
+```
+
+### Question 16
+```{r}
 
 ```
 
