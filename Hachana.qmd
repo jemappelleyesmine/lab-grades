@@ -4,6 +4,8 @@ author: "Yesmine Hachana"
 format: html
 ---
 
+## Introduction
+
 ```{r}
 library(vroom)
 library(ggplot2)
@@ -230,6 +232,28 @@ ggplot(selected_group_data, aes(x = `Airship Piloting and Navigation`, y = `Elec
 
 ### Question 16
 ```{r}
+final_grades <- grades_pivot %>%
+  rowwise() %>%
+  mutate(final_grade = mean(c_across(-c(id, group)), na.rm = TRUE)) %>%
+  ungroup() %>%
+  select(id, group, final_grade) %>%
+  arrange(desc(final_grade))
 
+final_grades %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
 ```
 
+### Question 17
+```{r}
+ggplot(final_grades, aes(x = as.factor(group), y = final_grade)) +
+  geom_boxplot(fill = "lightblue", color = "black") +
+  labs(
+    title = "Distribution of Final Grades by Group",
+    x = "Group",
+    y = "Final Grade"
+  ) +
+  theme_minimal()
+```
+
+### Question 18
