@@ -132,3 +132,37 @@ clockwork_grades %>%
   knitr::kable()
 ```
 
+### Question 10
+```{r}
+grades_distribution <- clockwork_grades %>%
+  count(num_grades)
+
+grades_distribution %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+
+ggplot(grades_distribution, aes(x = as.factor(num_grades), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Distribution of Number of Grades in Clockwork Automata and Robotics",
+    x = "Number of Grades",
+    y = "Number of Students"
+  ) +
+  theme_minimal()
+```
+
+### Question 11
+```{r}
+clockwork_grades %>%
+  group_by(group) %>%
+  summarise(avg_grades = mean(num_grades)) %>%
+  ggplot(aes(x = as.factor(group), y = avg_grades)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(
+    title = "Average Number of Grades per Student in Clockwork Automata and Robotics by Group",
+    x = "Group",
+    y = "Average Number of Grades per Student"
+  ) +
+  theme_minimal()
+```
+
