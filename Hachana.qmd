@@ -12,7 +12,7 @@ library(tidyr)
 library(stringr)
 ```
 
-## Question 1
+### Question 1
 ```{r}
 library(readr)
 here::i_am("lab-grades.Rproj")
@@ -20,16 +20,16 @@ library(here)
 grades <- read_csv(here("grades.csv"), show_col_types = FALSE)
 ```
 
-## Question 2
+## Simple Analyses
 
+### Question 2
 ```{r}
 num_grades <- nrow(grades)
 cat("The data set contains", num_grades, "grades.")
 ```
 The data set contains 53 018 grades.
 
-## Question 3
-
+### Question 3
 ```{r}
 num_students <- grades %>%
   distinct(id) %>%
@@ -38,8 +38,7 @@ num_students
 ```
 The data set contains 792 unique students.
 
-## Question 4
-
+### Question 4
 ```{r}
 library(knitr)
 students <- grades %>%
@@ -52,7 +51,7 @@ students %>%
   knitr::kable()
 ```
 
-## Question 5
+### Question 5
 ```{r}
 student_count <- students %>%
   count(group)
@@ -64,4 +63,40 @@ ggplot(student_count, aes(x = as.factor(group), y = n)) +
        y = "Number of Students") +
   theme_minimal()
 ```
+
+### Question 6
+```{r}
+victorian_avg <- grades %>%
+  filter(course == "Victorian Literature and Social Commentary") %>%
+  group_by(group) %>%
+  summarise(avg_grade = mean(grade, na.rm = TRUE))
+
+ggplot(victorian_avg, aes(x = as.factor(group), y = avg_grade)) +
+  geom_col(fill = "cornflowerblue") +
+  labs(title = "Average Grade in Victorian Literature and Social Commentary by Group",
+       x = "Group",
+       y = "Average Grade") +
+  theme_minimal()
+```
+
+### Question 7
+```{r}
+ggplot(grades, aes(x = as.factor(trimester), y = grade)) +
+  geom_boxplot(fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Grades Across Trimesters",
+       x = "Trimester",
+       y = "Grade") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(grades, aes(x = as.factor(trimester), y = grade)) +
+  geom_violin(fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Grades Across Trimesters",
+       x = "Trimester",
+       y = "Grade") +
+  theme_minimal()
+```
+
+## Attendance Analysis
 
