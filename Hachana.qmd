@@ -1,7 +1,9 @@
 ---
 title: "Hachana"
 author: "Yesmine Hachana"
-format: html
+format: 
+  html: default
+  pdf: default
 ---
 
 ## Introduction
@@ -287,6 +289,29 @@ final_check %>%
 
 ### Question 19
 ```{r}
+non_passing_students <- final_check %>%
+  filter(pass == FALSE, final_grade >= 10) %>%
+  tally()
 
+non_passing_students
+```
+
+### Question 20
+```{r}
+pass_rate_per_group <- final_check %>%
+  group_by(group) %>%
+  summarise(pass_rate = mean(pass))
+
+pass_rate_per_group %>%
+  knitr::kable()
+
+ggplot(pass_rate_per_group, aes(x = as.factor(group), y = pass_rate)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(
+    title = "Pass Rate per Group",
+    x = "Group",
+    y = "Pass Rate"
+  ) +
+  theme_minimal()
 ```
 
