@@ -100,3 +100,35 @@ ggplot(grades, aes(x = as.factor(trimester), y = grade)) +
 
 ## Attendance Analysis
 
+### Question 8
+```{r}
+grades_per_student <- grades %>%
+  count(id, group, name = "num_grades")
+
+grades_per_student %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+
+summary_stats <- grades_per_student %>%
+  summarise(
+    min_grades = min(num_grades),
+    max_grades = max(num_grades),
+    avg_grades = mean(num_grades),
+    median_grades = median(num_grades)
+  )
+
+summary_stats %>%
+  knitr::kable(col.names = c("Minimum Grades", "Maximum Grades", "Average Grades", "Median Grades"))
+```
+
+### Question 9
+```{r}
+clockwork_grades <- grades %>%
+  filter(course == "Clockwork Automata and Robotics") %>%
+  count(id, group, name = "num_grades")
+
+clockwork_grades %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+```
+
