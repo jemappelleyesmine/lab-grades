@@ -10,7 +10,6 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(stringr)
-library(knitr)
 ```
 
 ## Question 1
@@ -40,3 +39,29 @@ num_students
 The data set contains 792 unique students.
 
 ## Question 4
+
+```{r}
+library(knitr)
+students <- grades %>%
+  distinct(id, group)
+
+print(head(students, 5))
+
+students %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
+```
+
+## Question 5
+```{r}
+student_count <- students %>%
+  count(group)
+
+ggplot(student_count, aes(x = as.factor(group), y = n)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Number of Students per Group",
+       x = "Group",
+       y = "Number of Students") +
+  theme_minimal()
+```
+
